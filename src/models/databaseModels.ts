@@ -2,7 +2,7 @@
     id: number;
     title: string;
     cover_image_url: string;
-    published_date: string;
+    year_published: number;
     publisher: string;
     isbn: string;
     author: string;

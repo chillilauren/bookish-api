@@ -1,4 +1,4 @@
 ﻿{
   "watch": ["src/", "templates/"],
-  "ext": "ts, json, html"
+  "ext": "ts, json, .njk"
 }
