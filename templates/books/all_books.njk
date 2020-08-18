@@ -1,0 +1,14 @@
+﻿{% extends '../_base.njk' %}
+
+{% block content %}
+<h1>Books</h1>
+<ol>
+    {% for book in books %}
+        <li>
+            <img src="{{ book.cover_image_url }}" alt="Cover Image"/>
+            <div>{{ book.title }}</div>
+            <div>{{ book.author }}</div>
+        </li>
+    {% endfor %}
+</ol>
+{% endblock %}

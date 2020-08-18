@@ -2,6 +2,8 @@
 import express from "express";
 import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
+import homeRoutes from "./routes/homeRoutes";
+import bookRoutes from "./routes/bookRoutes";
 
 const app = express();
 const port = process.env['PORT'] || 3000;
@@ -15,9 +17,10 @@ app.use(
         debug: true,
         outputStyle: 'compressed',
         prefix: '',
-    }),
-    express.static('public')
+    })
 );
+app.use(express.static('public'))
+app.use(express.urlencoded({extended: true}));
 
 const PATH_TO_TEMPLATES = "./templates/";
 nunjucks.configure(PATH_TO_TEMPLATES, { 
@@ -25,12 +28,9 @@ nunjucks.configure(PATH_TO_TEMPLATES, {
     express: app
 });
 
-app.get("/", (req, res) => {
-    const model = {
-        message: "World"
-    }
-    res.render('index.html', model);
-});
+
+app.use("/books", bookRoutes);
+app.use("/", homeRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`)
