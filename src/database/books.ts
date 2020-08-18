@@ -6,3 +6,10 @@ export const fetchAllBooks = () => {
         .select("*")
         .from<Book>("book");
 }
+
+export const fetchBookById = (bookId: number) => {
+    return knexClient
+        .select("*")
+        .from<Book>("book")
+        .where("id", bookId);
+}
