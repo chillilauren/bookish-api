@@ -1,23 +1,35 @@
 ﻿{% extends '../_base.njk' %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    {% if deleted %}
+    <h1>{{ book.title }}</h1>
+    {% if book.deleted %}
         <div>
             This book has been deleted and is no longer in the library.
-            <form action="/books/{{ id }}/reinstate" method="post">
+            <form action="/books/{{ book.id }}/reinstate" method="post">
                 <button type="submit">Reinstate</button>
             </form>
         </div>
     {% else %}
-        <img src="{{ cover_image_url }}" alt="Cover Image"/>
-        <div>{{ author }}</div>
-        <div>{{ publisher }}</div>
-        <div>{{ published_date }}</div>
-        <div>{{ isbn }}</div>
-        <a href="/books/{{ id }}/edit">Edit</a>
-        <form action="/books/{{ id }}/delete" method="post">
+        <img src="{{ book.cover_image_url }}" alt="Cover Image"/>
+        <div>{{ book.author }}</div>
+        <div>{{ book.publisher }}</div>
+        <div>{{ book.published_date }}</div>
+        <div>{{ book.isbn }}</div>
+        <a href="/books/{{ book.id }}/edit">Edit</a>
+        <form action="/books/{{ book.id }}/delete" method="post">
             <button type="submit">Delete</button>
         </form>
+        
+        <h2>Copies</h2>
+        <div>Number of Copies: {{ copy | length }}</div>
+        <ul>
+            {% for copy in copies %}
+                <li>
+                    <div>ID: {{ copy.id }}</div>
+                    <div>Condition: {{ copy.condition }}</div>
+                    <div>Status: {{ copy.status }}</div>
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
 {% endblock %}

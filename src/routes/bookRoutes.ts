@@ -2,6 +2,7 @@
 import {deleteBook, fetchAllBooks, fetchBookById, insertBook, reinstateBook, updateBook} from "../database/books";
 import {EditBookRequest} from "../models/requestModels";
 import {lookupBook} from "../services/openLibrary";
+import {fetchCopiesOfBook} from "../database/copies";
 
 const router = express.Router();
 
@@ -59,8 +60,11 @@ router.post('/:bookId/reinstate', async (request, response) => {
 
 router.get('/:bookId', async (request, response) => {
     const bookId = parseInt(request.params.bookId);
-    const book = await fetchBookById(bookId);
-    response.render("books/single_book.njk", book);
+    const model = {
+        book: await fetchBookById(bookId),
+        copies: await fetchCopiesOfBook(bookId),
+    }
+    response.render("books/single_book.njk", model);
 });
 
 export default router;
