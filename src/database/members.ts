@@ -43,3 +43,13 @@ export const updateMember = async (id: number, member: EditMemberRequest) => {
         })
         .where("id", id);
 }
+
+export const deleteMember = async (id: number) => {
+    await knexClient("member")
+        .update({
+            name: "REDACTED",
+            email: `REDACTED_${id}`,
+            deleted: true,
+        })
+        .where("id", id);
+}

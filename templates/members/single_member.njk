@@ -4,10 +4,7 @@
     <h1>{{ name }}</h1>
     {% if deleted %}
         <div>
-            This book has been deleted and is no longer in the library.
-            <form action="/members/{{ id }}/reinstate" method="post">
-                <button type="submit">Reinstate</button>
-            </form>
+            This member has been deleted.
         </div>
     {% else %}
         <div>{{ email }}</div>
