@@ -1,5 +1,5 @@
 ﻿import {knexClient, PAGE_SIZE} from "./knexClient";
-import {EditBookRequest, EditMemberRequest} from "../models/requestModels";
+import {EditMemberRequest} from "../models/requestModels";
 
 export const fetchAllMembers = (search: string, page: number) => {
     return knexClient
@@ -23,7 +23,7 @@ export const fetchMemberById = (id: number) => {
         .first();
 }
 
-export const insertMember= async (member: EditMemberRequest) => {
+export const insertMember = async (member: EditMemberRequest) => {
     const insertedIds = await knexClient
         .insert({
             name: member.name,
@@ -33,4 +33,13 @@ export const insertMember= async (member: EditMemberRequest) => {
         .returning("id");
 
     return insertedIds[0];
+}
+
+export const updateMember = async (id: number, member: EditMemberRequest) => {
+    await knexClient("member")
+        .update({
+            name: member.name,
+            email: member.email,
+        })
+        .where("id", id);
 }

@@ -1,0 +1,18 @@
+﻿{% extends '../_base.njk' %}
+
+{% block content %}
+    <h1>Edit Member</h1>
+    <form action="/members/{{ id }}/edit" method="post">
+        <label>
+            Name
+            <input name="name" type="text" value="{{ name }}" required/>
+        </label>
+
+        <label>
+            Email
+            <input name="email" type="email" value="{{ email }}" required/>
+        </label>
+
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

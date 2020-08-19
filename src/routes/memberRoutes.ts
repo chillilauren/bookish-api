@@ -1,5 +1,5 @@
 ﻿import express from "express";
-import {fetchAllMembers, fetchMemberById, insertMember} from "../database/members";
+import {fetchAllMembers, fetchMemberById, insertMember, updateMember} from "../database/members";
 import {EditMemberRequest} from "../models/requestModels";
 
 const router = express.Router();
@@ -29,6 +29,18 @@ router.get('/:memberId', async (request, response) => {
     const memberId = parseInt(request.params.memberId);
     const member = await fetchMemberById(memberId);
     response.render("members/single_member.njk", member);
+});
+
+router.get('/:memberId/edit', async (request, response) => {
+    const memberId = parseInt(request.params.memberId);
+    const member = await fetchMemberById(memberId);
+    response.render("members/edit_member.njk", member);
+});
+
+router.post('/:memberId/edit', async (request, response) => {
+    const memberId = parseInt(request.params.memberId);
+    await updateMember(memberId, request.body);
+    response.redirect(`/members/${memberId}`);
 });
 
 export default router;
