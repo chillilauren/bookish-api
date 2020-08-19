@@ -1,5 +1,5 @@
 ﻿import express from "express";
-import {fetchAllBooks, fetchBookById, insertBook, updateBook} from "../database/books";
+import {deleteBook, fetchAllBooks, fetchBookById, insertBook, reinstateBook, updateBook} from "../database/books";
 import {EditBookRequest} from "../models/requestModels";
 import {lookupBook} from "../services/openLibrary";
 
@@ -38,6 +38,18 @@ router.get('/:bookId/edit', async (request, response) => {
 router.post('/:bookId/edit', async (request, response) => {
     const bookId = parseInt(request.params.bookId);
     await updateBook(bookId, request.body);
+    response.redirect(`/books/${bookId}`);
+});
+
+router.post('/:bookId/delete', async (request, response) => {
+    const bookId = parseInt(request.params.bookId);
+    await deleteBook(bookId);
+    response.redirect(`/books/${bookId}`);
+});
+
+router.post('/:bookId/reinstate', async (request, response) => {
+    const bookId = parseInt(request.params.bookId);
+    await reinstateBook(bookId);
     response.redirect(`/books/${bookId}`);
 });
 

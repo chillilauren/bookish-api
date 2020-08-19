@@ -2,10 +2,22 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <img src="{{ cover_image_url }}" alt="Cover Image"/>
-    <div>{{ author }}</div>
-    <div>{{ publisher }}</div>
-    <div>{{ published_date }}</div>
-    <div>{{ isbn }}</div>
-    <a href="/books/{{ id }}/edit">Edit</a>
+    {% if deleted %}
+        <div>
+            This book has been deleted and is no longer in the library.
+            <form action="/books/{{ id }}/reinstate" method="post">
+                <button type="submit">Reinstate</button>
+            </form>
+        </div>
+    {% else %}
+        <img src="{{ cover_image_url }}" alt="Cover Image"/>
+        <div>{{ author }}</div>
+        <div>{{ publisher }}</div>
+        <div>{{ published_date }}</div>
+        <div>{{ isbn }}</div>
+        <a href="/books/{{ id }}/edit">Edit</a>
+        <form action="/books/{{ id }}/delete" method="post">
+            <button type="submit">Delete</button>
+        </form>
+    {% endif %}
 {% endblock %}

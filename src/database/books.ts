@@ -5,7 +5,8 @@ import {EditBookRequest} from "../models/requestModels";
 export const fetchAllBooks = () => {
     return knexClient
         .select("*")
-        .from<Book>("book");
+        .from<Book>("book")
+        .where("deleted", false);
 }
 
 export const fetchBookById = (bookId: number) => {
@@ -43,4 +44,16 @@ export const updateBook = async (id: number, book: EditBookRequest) => {
             isbn: book.isbn
         })
         .where("id", id)
+}
+
+export const deleteBook = async (id: number) => {
+    await knexClient("book")
+        .update("deleted", true)
+        .where("id", id);
+}
+
+export const reinstateBook = async (id: number) => {
+    await knexClient("book")
+        .update("deleted", false)
+        .where("id", id);
 }
