@@ -1,4 +1,5 @@
 ﻿import {knexClient, PAGE_SIZE} from "./knexClient";
+import {EditBookRequest, EditMemberRequest} from "../models/requestModels";
 
 export const fetchAllMembers = (search: string, page: number) => {
     return knexClient
@@ -12,4 +13,16 @@ export const fetchAllMembers = (search: string, page: number) => {
         })
         .offset(PAGE_SIZE * (page - 1))
         .limit(PAGE_SIZE);
+}
+
+export const insertMember= async (member: EditMemberRequest) => {
+    const insertedIds = await knexClient
+        .insert({
+            name: member.name,
+            email: member.email,
+        })
+        .into("member")
+        .returning("id");
+
+    return insertedIds[0];
 }

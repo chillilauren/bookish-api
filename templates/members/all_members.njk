@@ -13,15 +13,15 @@
         {% for member in members %}
             <li>
                 <a href="/members/{{ member.id }}">
-                    <div>{{ book.name }}</div>
-                    <div>{{ book.email }}</div>
+                    <div>{{ member.name }}</div>
+                    <div>{{ member.email }}</div>
                 </a>
             </li>
         {% endfor %}
     </ol>
     <a href="/members/new">+</a>
     {% if page != 1 %}
-        <a href="/members?search={{ search }}&page{{ page - 1 }}">Previous</a>
+        <a href="/members?search={{ search }}&page={{ page - 1 }}">Previous</a>
     {% endif %}
-    <a href="/members?search={{ search }}&page{{ page + 1 }}">Next</a>
+    <a href="/members?search={{ search }}&page={{ page + 1 }}">Next</a>
 {% endblock %}

@@ -4,7 +4,7 @@ import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
 import "express-async-errors"
 import homeRoutes from "./routes/homeRoutes";
-import memberRoutes from "./routes/homeRoutes";
+import memberRoutes from "./routes/memberRoutes";
 import bookRoutes from "./routes/bookRoutes";
 
 const app = express();

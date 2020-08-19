@@ -6,3 +6,8 @@
     publisher: string | null;
     publishDate: string | null;
 }
+
+export interface EditMemberRequest {
+    name: string;
+    email: string;
+}

@@ -1,5 +1,6 @@
 ﻿import express from "express";
-import {fetchAllMembers} from "../database/members";
+import {fetchAllMembers, insertMember} from "../database/members";
+import {EditMemberRequest} from "../models/requestModels";
 
 const router = express.Router();
 
@@ -11,7 +12,17 @@ router.get('/', async (request, response) => {
         search: search,
         page: page
     }
-    response.render("books/all_members.njk", model);
+    response.render("members/all_members.njk", model);
+});
+
+router.get('/new', async (request, response) => {
+    response.render("members/new_member.njk"); 
+});
+
+router.post('/new', async (request, response) => {
+    const newMember = request.body as EditMemberRequest;
+    const newMemberId = await insertMember(newMember);
+    response.redirect(`/members/${newMemberId}`); 
 });
 
 export default router;
