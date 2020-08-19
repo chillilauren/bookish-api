@@ -6,8 +6,6 @@ CREATE TABLE book (
     cover_image_url     VARCHAR(255),
     published_date      VARCHAR(64),
     publisher           VARCHAR(255),
-    isbn                varchar(13),
+    isbn                VARCHAR(13),
     author              VARCHAR(255) NOT NULL   
 );
-
-select * from book;

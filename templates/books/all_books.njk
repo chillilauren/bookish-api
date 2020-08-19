@@ -5,10 +5,13 @@
 <ol>
     {% for book in books %}
         <li>
-            <img src="{{ book.cover_image_url }}" alt="Cover Image"/>
-            <div>{{ book.title }}</div>
-            <div>{{ book.author }}</div>
+            <a href="/books/{{ book.id }}">
+                <img src="{{ book.cover_image_url }}" alt="Cover Image"/>
+                <div>{{ book.title }}</div>
+                <div>{{ book.author }}</div>
+            </a>
         </li>
     {% endfor %}
 </ol>
+<a href="/books/new">+</a>
 {% endblock %}
