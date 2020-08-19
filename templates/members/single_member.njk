@@ -1,0 +1,19 @@
+﻿{% extends '../_base.njk' %}
+
+{% block content %}
+    <h1>{{ name }}</h1>
+    {% if deleted %}
+        <div>
+            This book has been deleted and is no longer in the library.
+            <form action="/members/{{ id }}/reinstate" method="post">
+                <button type="submit">Reinstate</button>
+            </form>
+        </div>
+    {% else %}
+        <div>{{ email }}</div>
+        <a href="/members/{{ id }}/edit">Edit</a>
+        <form action="/members/{{ id }}/delete" method="post">
+            <button type="submit">Delete</button>
+        </form>
+    {% endif %}
+{% endblock %}

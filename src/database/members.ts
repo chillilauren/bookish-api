@@ -15,6 +15,14 @@ export const fetchAllMembers = (search: string, page: number) => {
         .limit(PAGE_SIZE);
 }
 
+export const fetchMemberById = (id: number) => {
+    return knexClient
+        .select("*")
+        .from("member")
+        .where("id", id)
+        .first();
+}
+
 export const insertMember= async (member: EditMemberRequest) => {
     const insertedIds = await knexClient
         .insert({
