@@ -11,3 +11,8 @@ export interface EditMemberRequest {
     name: string;
     email: string;
 }
+
+export interface EditCopyRequest {
+    condition: "NEW" | "USED" | "POOR";
+    status: "ACTIVE" | "LOST" | "REMOVED";
+}

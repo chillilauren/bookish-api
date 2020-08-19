@@ -1,0 +1,26 @@
+﻿{% extends "../_base.njk" %}
+
+{% block content %}
+    <h1>Edit Copy</h1>
+    <form method="post" action="/copies/{{ id }}/edit">
+        <label>
+            Condition
+            <select name="condition" required>
+                <option {% if condition == "NEW" %}selected{% endif %} value="NEW">NEW</option>
+                <option {% if condition == "USED" %}selected{% endif %} value="USED">USED</option>
+                <option {% if condition == "POOR" %}selected{% endif %} value="POOR">POOR</option>
+            </select>
+        </label>
+
+        <label>
+            Status
+            <select name="status" required>
+                <option {% if status == "ACTIVE" %}selected{% endif %} value="ACTIVE">ACTIVE</option>
+                <option {% if status == "LOST" %}selected{% endif %} value="LOST">LOST</option>
+                <option {% if status == "REMOVED" %}selected{% endif %} value="REMOVED">REMOVED</option>
+            </select>
+        </label>
+
+        <button type="submit">Update</button>
+    </form>
+{% endblock %}

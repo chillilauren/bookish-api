@@ -28,8 +28,13 @@
                     <div>ID: {{ copy.id }}</div>
                     <div>Condition: {{ copy.condition }}</div>
                     <div>Status: {{ copy.status }}</div>
+                    <a href="/copies/{{ copy.id }}/edit">Edit</a>
                 </li>
             {% endfor %}
         </ul>
+        <form action="/copies/new" method="post">
+            <input type="hidden" name="bookId" value="{{ book.id }}"/>
+            <button type="submit">Add New Copy</button>
+        </form>
     {% endif %}
 {% endblock %}
