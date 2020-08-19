@@ -10,3 +10,5 @@ export const knexClient = knex({
        password: process.env.POSTGRES_PASSWORD
    } 
 });
+
+export const PAGE_SIZE = 10;

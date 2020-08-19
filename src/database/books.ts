@@ -1,8 +1,8 @@
-﻿import { knexClient } from "./knexClient";
+﻿import { knexClient, PAGE_SIZE } from "./knexClient";
 import {Book} from "../models/databaseModels";
 import {EditBookRequest} from "../models/requestModels";
 
-export const fetchAllBooks = (search: string) => {
+export const fetchAllBooks = (search: string, page: number) => {
     return knexClient
         .select("*")
         .from<Book>("book")
@@ -11,7 +11,9 @@ export const fetchAllBooks = (search: string) => {
             builder
                 .where("title", "ILIKE", `%${search}%`)
                 .orWhere("author", "ILIKE", `%${search}%`);
-        });
+        })
+        .offset(PAGE_SIZE * (page - 1))
+        .limit(PAGE_SIZE);
 }
 
 export const fetchBookById = (bookId: number) => {

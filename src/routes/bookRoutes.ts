@@ -7,9 +7,11 @@ const router = express.Router();
 
 router.get('/', async (request, response) => {
     const search = request.query.search || "";
+    const page = request.query.page ? parseInt(request.query.page as string) : 1;
     const model = { 
-        books: await fetchAllBooks(search as string),
+        books: await fetchAllBooks(search as string, page),
         search: search,
+        page: page
     }
     response.render("books/all_books.njk", model);
 });
