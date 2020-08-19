@@ -4,6 +4,7 @@ import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
 import "express-async-errors"
 import homeRoutes from "./routes/homeRoutes";
+import memberRoutes from "./routes/homeRoutes";
 import bookRoutes from "./routes/bookRoutes";
 
 const app = express();
@@ -31,6 +32,7 @@ nunjucks.configure(PATH_TO_TEMPLATES, {
 
 
 app.use("/books", bookRoutes);
+app.use("/members", memberRoutes);
 app.use("/", homeRoutes);
 
 app.listen(port, () => {

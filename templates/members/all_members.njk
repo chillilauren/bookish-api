@@ -1,0 +1,27 @@
+﻿{% extends '../_base.njk' %}
+
+{% block content %}
+    <h1>Members</h1>
+    <form action="/members" method="get">
+        <label>
+            Search
+            <input type="text" placeholder="Search by name or email" name="search" value="{{ search }}"/>
+        </label>
+        <button type="submit">Search</button>
+    </form>
+    <ol>
+        {% for member in members %}
+            <li>
+                <a href="/members/{{ member.id }}">
+                    <div>{{ book.name }}</div>
+                    <div>{{ book.email }}</div>
+                </a>
+            </li>
+        {% endfor %}
+    </ol>
+    <a href="/members/new">+</a>
+    {% if page != 1 %}
+        <a href="/members?search={{ search }}&page{{ page - 1 }}">Previous</a>
+    {% endif %}
+    <a href="/members?search={{ search }}&page{{ page + 1 }}">Next</a>
+{% endblock %}

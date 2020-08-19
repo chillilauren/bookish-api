@@ -3,7 +3,7 @@
 const router = express.Router();
 
 router.get('/', (request, response) => {
-    response.render("index.njk");
+    response.render("members/all_members.njk");
 })
 
 export default router;

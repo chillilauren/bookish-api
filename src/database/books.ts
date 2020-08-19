@@ -1,11 +1,10 @@
 ﻿import { knexClient, PAGE_SIZE } from "./knexClient";
-import {Book} from "../models/databaseModels";
 import {EditBookRequest} from "../models/requestModels";
 
 export const fetchAllBooks = (search: string, page: number) => {
     return knexClient
         .select("*")
-        .from<Book>("book")
+        .from("book")
         .where("deleted", false)
         .andWhere(builder => {
             builder
@@ -19,7 +18,7 @@ export const fetchAllBooks = (search: string, page: number) => {
 export const fetchBookById = (bookId: number) => {
     return knexClient
         .select("*")
-        .from<Book>("book")
+        .from("book")
         .where("id", bookId)
         .first();
 }
@@ -34,7 +33,7 @@ export const insertBook = async (book: EditBookRequest) => {
             isbn: book.isbn,
             author: book.author
         })
-        .into<Book>("book")
+        .into("book")
         .returning("id");
     
     return insertedIds[0];
