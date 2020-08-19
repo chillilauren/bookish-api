@@ -4,5 +4,5 @@
     isbn: string;
     coverImageUrl: string;
     publisher: string;
-    yearPublished: number;
+    publishDate: string;
 }

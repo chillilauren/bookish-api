@@ -2,37 +2,54 @@
 
 {% block content %}
     <h1>New Book</h1>
-    <form action="/books/new" method="POST">
-        <label>
-            Title
-            <input type="text" name="title" required/>
-        </label>
+    <div>
+        <h2>Add By ISBN</h2>
+        <form action="/books/new-by-isbn" method="POST">
+            <label>
+                ISBN
+                <input type="text" name="isbn"/>
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 
-        <label>
-            Author
-            <input type="text" name="author" required/>
-        </label>
+    <details>
+        <form action="/books/new" method="POST">
+            <label>
+                Title
+                <input type="text" name="title" required/>
+            </label>
 
-        <label>
-            ISBN
-            <input type="text" name="isbn"/>
-        </label>
+            <label>
+                Author
+                <input type="text" name="author" required/>
+            </label>
 
-        <label>
-            Publisher
-            <input type="text" name="publisher"/>
-        </label>
+            <label>
+                ISBN
+                <input type="text" name="isbn"/>
+            </label>
 
-        <label>
-            Year Published
-            <input type="number" name="yearPublished"/>
-        </label>
+            <label>
+                Publisher
+                <input type="text" name="publisher"/>
+            </label>
 
-        <label>
-            Cover Image URL
-            <input type="text" name="coverImageUrl"/>
-        </label>
+            <label>
+                Year Published
+                <input type="text" name="publishedDate"/>
+            </label>
+
+            <label>
+                Cover Image URL
+                <input type="text" name="coverImageUrl"/>
+            </label>
+
+            <button type="submit">Submit</button>
+        </form>
         
-        <button type="submit">Create</button>
-    </form>
+        <summary>
+            <h2>Or Add Manually</h2>
+        </summary>
+    </details>
 {% endblock %}

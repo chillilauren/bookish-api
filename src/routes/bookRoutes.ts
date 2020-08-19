@@ -1,6 +1,7 @@
 ﻿import express from "express";
 import {fetchAllBooks, fetchBookById, insertBook} from "../database/books";
 import {CreateBookRequest} from "../models/requestModels";
+import {lookupBook} from "../services/openLibrary";
 
 const router = express.Router();
 
@@ -20,6 +21,13 @@ router.post('/new', async (request, response) => {
     const newBookId = await insertBook(newBook);
     response.redirect(`/books/${newBookId}`);
 });
+
+router.post('/new-by-isbn', async (request, response) => {
+    const isbn = request.body.isbn;
+    const newBook = await lookupBook(isbn);
+    const newBookId = await insertBook(newBook);
+    response.redirect(`/books/${newBookId}`);
+})
 
 router.get('/:bookId', async (request, response) => {
     const bookId = parseInt(request.params.bookId);

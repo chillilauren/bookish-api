@@ -21,7 +21,7 @@ export const insertBook = async (book: CreateBookRequest) => {
         .insert({
             title: book.title,
             cover_image_url: book.coverImageUrl,
-            year_published: book.yearPublished,
+            published_date: book.publishDate,
             publisher: book.publisher,
             isbn: book.isbn,
             author: book.author
