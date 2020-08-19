@@ -1,4 +1,4 @@
-﻿export interface CreateBookRequest {
+﻿export interface EditBookRequest {
     title: string;
     author: string;
     isbn: string | null;

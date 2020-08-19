@@ -1,6 +1,6 @@
 ﻿import express from "express";
-import {fetchAllBooks, fetchBookById, insertBook} from "../database/books";
-import {CreateBookRequest} from "../models/requestModels";
+import {fetchAllBooks, fetchBookById, insertBook, updateBook} from "../database/books";
+import {EditBookRequest} from "../models/requestModels";
 import {lookupBook} from "../services/openLibrary";
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get('/new', (request, response) => {
 });
 
 router.post('/new', async (request, response) => {
-    const newBook = request.body as CreateBookRequest;
+    const newBook = request.body as EditBookRequest;
     const newBookId = await insertBook(newBook);
     response.redirect(`/books/${newBookId}`);
 });
@@ -27,12 +27,23 @@ router.post('/new-by-isbn', async (request, response) => {
     const newBook = await lookupBook(isbn);
     const newBookId = await insertBook(newBook);
     response.redirect(`/books/${newBookId}`);
-})
+});
+
+router.get('/:bookId/edit', async (request, response) => {
+    const bookId = parseInt(request.params.bookId);
+    const book = await fetchBookById(bookId);
+    response.render("books/edit_book.njk", book);
+});
+
+router.post('/:bookId/edit', async (request, response) => {
+    const bookId = parseInt(request.params.bookId);
+    await updateBook(bookId, request.body);
+    response.redirect(`/books/${bookId}`);
+});
 
 router.get('/:bookId', async (request, response) => {
     const bookId = parseInt(request.params.bookId);
     const book = await fetchBookById(bookId);
-    console.log(book);
     response.render("books/single_book.njk", book);
 });
 
