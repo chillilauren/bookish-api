@@ -2,11 +2,16 @@
 import {Book} from "../models/databaseModels";
 import {EditBookRequest} from "../models/requestModels";
 
-export const fetchAllBooks = () => {
+export const fetchAllBooks = (search: string) => {
     return knexClient
         .select("*")
         .from<Book>("book")
-        .where("deleted", false);
+        .where("deleted", false)
+        .andWhere(builder => {
+            builder
+                .where("title", "ILIKE", `%${search}%`)
+                .orWhere("author", "ILIKE", `%${search}%`);
+        });
 }
 
 export const fetchBookById = (bookId: number) => {

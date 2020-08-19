@@ -2,6 +2,7 @@
 
 export const knexClient = knex({
    client: "pg",
+    debug: true,
    connection: {
        host: "localhost",
        database: "bookish",

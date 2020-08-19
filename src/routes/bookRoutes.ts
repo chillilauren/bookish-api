@@ -6,8 +6,10 @@ import {lookupBook} from "../services/openLibrary";
 const router = express.Router();
 
 router.get('/', async (request, response) => {
+    const search = request.query.search || "";
     const model = { 
-        books: await fetchAllBooks()
+        books: await fetchAllBooks(search as string),
+        search: search,
     }
     response.render("books/all_books.njk", model);
 });

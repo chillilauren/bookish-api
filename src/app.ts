@@ -2,6 +2,7 @@
 import express from "express";
 import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
+import "express-async-errors"
 import homeRoutes from "./routes/homeRoutes";
 import bookRoutes from "./routes/bookRoutes";
 
@@ -18,7 +19,7 @@ app.use(
         prefix: '',
     })
 );
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 
 const PATH_TO_TEMPLATES = "./templates/";
