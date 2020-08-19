@@ -14,7 +14,6 @@ app.use(
     sassMiddleware({
         src: srcPath,
         dest: destPath,
-        debug: true,
         outputStyle: 'compressed',
         prefix: '',
     })
@@ -25,7 +24,8 @@ app.use(express.urlencoded({extended: true}));
 const PATH_TO_TEMPLATES = "./templates/";
 nunjucks.configure(PATH_TO_TEMPLATES, { 
     autoescape: true,
-    express: app
+    express: app,
+    trimBlocks: true,
 });
 
 
