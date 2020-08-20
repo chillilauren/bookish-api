@@ -1,5 +1,5 @@
 ﻿import { knexClient, PAGE_SIZE } from "./knexClient";
-import {EditBookRequest} from "../models/requestModels";
+import {BookRequest} from "../models/requestModels";
 
 export const fetchAllBooks = (search: string, page: number) => {
     return knexClient
@@ -23,7 +23,7 @@ export const fetchBookById = (bookId: number) => {
         .first();
 }
 
-export const insertBook = async (book: EditBookRequest) => {
+export const insertBook = async (book: BookRequest) => {
     const insertedIds = await knexClient
         .insert({
             title: book.title,
@@ -39,7 +39,7 @@ export const insertBook = async (book: EditBookRequest) => {
     return insertedIds[0];
 }
 
-export const updateBook = async (id: number, book: EditBookRequest) => {
+export const updateBook = async (id: number, book: BookRequest) => {
     await knexClient("book")
         .update({
             title: book.title,

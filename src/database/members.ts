@@ -1,5 +1,5 @@
 ﻿import {knexClient, PAGE_SIZE} from "./knexClient";
-import {EditMemberRequest} from "../models/requestModels";
+import {MemberRequest} from "../models/requestModels";
 
 export const fetchAllMembers = (search: string, page: number) => {
     return knexClient
@@ -23,7 +23,15 @@ export const fetchMemberById = (id: number) => {
         .first();
 }
 
-export const insertMember = async (member: EditMemberRequest) => {
+export const fetchMemberByEmail = (email: string) => {
+    return knexClient
+        .select("*")
+        .from("member")
+        .where("email", email)
+        .first();
+}
+
+export const insertMember = async (member: MemberRequest) => {
     const insertedIds = await knexClient
         .insert({
             name: member.name,
@@ -35,7 +43,7 @@ export const insertMember = async (member: EditMemberRequest) => {
     return insertedIds[0];
 }
 
-export const updateMember = async (id: number, member: EditMemberRequest) => {
+export const updateMember = async (id: number, member: MemberRequest) => {
     await knexClient("member")
         .update({
             name: member.name,

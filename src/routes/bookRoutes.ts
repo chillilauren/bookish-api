@@ -1,6 +1,6 @@
 ﻿import express from "express";
 import {deleteBook, fetchAllBooks, fetchBookById, insertBook, reinstateBook, updateBook} from "../database/books";
-import {EditBookRequest} from "../models/requestModels";
+import {BookRequest} from "../models/requestModels";
 import {lookupBook} from "../services/openLibrary";
 import {fetchCopiesOfBook} from "../database/copies";
 
@@ -22,7 +22,7 @@ router.get('/new', (request, response) => {
 });
 
 router.post('/new', async (request, response) => {
-    const newBook = request.body as EditBookRequest;
+    const newBook = request.body as BookRequest;
     const newBookId = await insertBook(newBook);
     response.redirect(`/books/${newBookId}`);
 });

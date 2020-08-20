@@ -1,6 +1,7 @@
 ﻿import express from "express";
 import {deleteMember, fetchAllMembers, fetchMemberById, insertMember, updateMember} from "../database/members";
-import {EditMemberRequest} from "../models/requestModels";
+import {MemberRequest} from "../models/requestModels";
+import {fetchBooksCheckedOutByMember} from "../database/checkouts";
 
 const router = express.Router();
 
@@ -20,15 +21,18 @@ router.get('/new', async (request, response) => {
 });
 
 router.post('/new', async (request, response) => {
-    const newMember = request.body as EditMemberRequest;
+    const newMember = request.body as MemberRequest;
     const newMemberId = await insertMember(newMember);
     response.redirect(`/members/${newMemberId}`); 
 });
 
 router.get('/:memberId', async (request, response) => {
     const memberId = parseInt(request.params.memberId);
-    const member = await fetchMemberById(memberId);
-    response.render("members/single_member.njk", member);
+    const model = {
+        member:  await fetchMemberById(memberId),
+        checkedOutBooks: await fetchBooksCheckedOutByMember(memberId),
+    }
+    response.render("members/single_member.njk", model);
 });
 
 router.get('/:memberId/edit', async (request, response) => {

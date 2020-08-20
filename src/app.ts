@@ -7,6 +7,7 @@ import homeRoutes from "./routes/homeRoutes";
 import memberRoutes from "./routes/memberRoutes";
 import bookRoutes from "./routes/bookRoutes";
 import copyRoutes from "./routes/copyRoutes";
+import checkoutRoutes from "./routes/checkoutRoutes";
 
 const app = express();
 const port = process.env['PORT'] || 3000;
@@ -35,6 +36,7 @@ nunjucks.configure(PATH_TO_TEMPLATES, {
 app.use("/books", bookRoutes);
 app.use("/members", memberRoutes);
 app.use("/copies", copyRoutes);
+app.use("/checkouts", checkoutRoutes);
 app.use("/", homeRoutes);
 
 app.listen(port, () => {

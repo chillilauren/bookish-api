@@ -1,4 +1,4 @@
-﻿export interface EditBookRequest {
+﻿export interface BookRequest {
     title: string;
     author: string;
     isbn: string | null;
@@ -7,12 +7,18 @@
     publishDate: string | null;
 }
 
-export interface EditMemberRequest {
+export interface MemberRequest {
     name: string;
     email: string;
 }
 
-export interface EditCopyRequest {
+export interface CopyRequest {
     condition: "NEW" | "USED" | "POOR";
     status: "ACTIVE" | "LOST" | "REMOVED";
+}
+
+export interface CheckoutRequest {
+    copyId: number;
+    memberId: number | undefined;
+    email: string | undefined
 }

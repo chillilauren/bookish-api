@@ -1,5 +1,5 @@
 ﻿import {knexClient} from "./knexClient";
-import {EditCopyRequest} from "../models/requestModels";
+import {CopyRequest} from "../models/requestModels";
 
 export const fetchCopiesOfBook = (bookId: number) => {
     return knexClient
@@ -26,7 +26,7 @@ export const fetchCopyById = (id: number) => {
         .first();
 }
 
-export const updateCopy = async (id: number, copy: EditCopyRequest) => {
+export const updateCopy = async (id: number, copy: CopyRequest) => {
     const updatedRows = await knexClient("copy")
         .update({
             condition: copy.condition,

@@ -29,6 +29,17 @@
                     <div>Condition: {{ copy.condition }}</div>
                     <div>Status: {{ copy.status }}</div>
                     <a href="/copies/{{ copy.id }}/edit">Edit</a>
+                    <form method="post" action="/checkouts/new-by-email">
+                        <h3>Checkout Copy</h3>
+                        <input type="hidden" name="copyId" value="{{ copy.id }}">
+                        
+                        <label>
+                            Member Email:
+                            <input type="text" name="email"/>
+                        </label>
+                        
+                        <button type="submit">Assign</button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>

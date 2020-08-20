@@ -1,5 +1,5 @@
 ﻿import fetch from "node-fetch";
-import {EditBookRequest} from "../models/requestModels";
+import {BookRequest} from "../models/requestModels";
 
 const baseUrl = 'https://openlibrary.org/api/';
 
@@ -17,7 +17,7 @@ interface CoverImage {
     large: string | undefined;
 }
 
-export const lookupBook = async (isbn: string): Promise<EditBookRequest> => {
+export const lookupBook = async (isbn: string): Promise<BookRequest> => {
     const response = await fetch(`${baseUrl}books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);
     const jsonData = await response.json();
     const bookData = jsonData[`ISBN:${isbn}`];

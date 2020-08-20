@@ -1,16 +1,47 @@
 ﻿{% extends '../_base.njk' %}
 
 {% block content %}
-    <h1>{{ name }}</h1>
-    {% if deleted %}
+    <h1>{{ member.name }}</h1>
+    {% if member.deleted %}
         <div>
             This member has been deleted.
         </div>
     {% else %}
-        <div>{{ email }}</div>
-        <a href="/members/{{ id }}/edit">Edit</a>
-        <form action="/members/{{ id }}/delete" method="post">
+        <div>{{ member.email }}</div>
+        <a href="/members/{{ member.id }}/edit">Edit</a>
+        <form action="/members/{{ member.id }}/delete" method="post">
             <button type="submit">Delete</button>
+        </form>
+        
+        <h2>Checkout History</h2>
+        <ol>
+            {% for book in checkedOutBooks %}
+                <li>
+                    <img src="{{ book.cover_image_url }}" alt="Cover Image for {{ book.title }}"/>
+                    <div>{{ book.title }}</div>
+                    <div>{{ book.author }}</div>
+                    <div>{{ book.out_date }}</div>
+                    <div>{{ book.in_date }}</div>
+                    
+                    {% if not book.in_date %}
+                        <form action="/checkouts/{{ book.checkout_id }}/checkin" method="post">
+                            <button>Return</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+        
+        <h2>Checkout Book</h2>
+        <form action="/checkouts/new" method="post">
+            <input name="memberId" type="hidden" value="{{ member.id }}"/>
+            
+            <label>
+                Copy ID
+                <input type="number" name="copyId" required/>
+            </label>
+            
+            <button type="submit">Checkout Book</button>
         </form>
     {% endif %}
 {% endblock %}
