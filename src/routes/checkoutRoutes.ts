@@ -15,12 +15,13 @@ router.post('/new-by-email', async (request, response) => {
     const checkout = request.body as CheckoutRequest;
     const member = await fetchMemberByEmail(checkout.email!);
     await checkoutCopy(member.id, checkout.copyId);
-    response.redirect(`/books/${checkout.memberId}`);
+    response.redirect(`/members/${member.id}`);
 });
 
 router.post('/:checkoutId/checkin', async (request, response) => {
     const checkoutId = parseInt(request.params.checkoutId);
     const updatedCopy = await checkinCopy(checkoutId);
+    console.log(updatedCopy);
     response.redirect(`/members/${updatedCopy.member_id}`);
 })
 

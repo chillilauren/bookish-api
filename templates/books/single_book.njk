@@ -21,9 +21,10 @@
         </form>
         
         <h2>Copies</h2>
-        <div>Number of Copies: {{ copy | length }}</div>
+        <div>{{ copies.all | length }} Copies - {{ copies.available | length }} Available</div>
+        <h3>Available</h3>
         <ul>
-            {% for copy in copies %}
+            {% for copy in copies.available %}
                 <li>
                     <div>ID: {{ copy.id }}</div>
                     <div>Condition: {{ copy.condition }}</div>
@@ -40,6 +41,35 @@
                         
                         <button type="submit">Assign</button>
                     </form>
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <h3>On Loan</h3>
+        <ul>
+            {% for copy in copies.onLoan %}
+                <li>
+                    <div>ID: {{ copy.id }}</div>
+                    <div>Condition: {{ copy.condition }}</div>
+                    <div>Status: {{ copy.status }}</div>
+                    <div>Current Member: {{ copy.name }}</div>
+                    <div>Taken: {{ copy.out_date }}</div>
+                    <a href="/copies/{{ copy.id }}/edit">Edit</a>
+                    <form action="/checkouts/{{ copy.id }}/checkin" method="post">
+                        <button>Return</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3>Inactive</h3>
+        <ul>
+            {% for copy in copies.inactive %}
+                <li>
+                    <div>ID: {{ copy.id }}</div>
+                    <div>Condition: {{ copy.condition }}</div>
+                    <div>Status: {{ copy.status }}</div>
+                    <a href="/copies/{{ copy.id }}/edit">Edit</a>
                 </li>
             {% endfor %}
         </ul>

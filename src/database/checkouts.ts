@@ -20,7 +20,7 @@ const isAvailable = async (copyId: number) => {
         .select("*")
         .from("checkout")
         .where("copy_id", copyId)
-        .andWhere("in_date", null);
+        .andWhere("in_date", "is", null);
     
     return unreturnedCopies.length === 0;
 } 
@@ -29,8 +29,9 @@ export const checkinCopy = async (checkoutId: number) => {
     const updatedRows = await knexClient("checkout")
         .update({ in_date: knexClient.fn.now() })
         .where("id", checkoutId)
-        .returning("*");
+        .returning("member_id");
     
+    console.log(updatedRows);
     return updatedRows[0];
 }
 
