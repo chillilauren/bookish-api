@@ -14,6 +14,9 @@ router.post('/new', async (request, response) => {
 router.post('/new-by-email', async (request, response) => {
     const checkout = request.body as CheckoutRequest;
     const member = await fetchMemberByEmail(checkout.email!);
+    if (!member) {
+        throw Error(`no user found matching email: ${checkout.email}`)
+    }
     await checkoutCopy(member.id, checkout.copyId);
     response.redirect(`/members/${member.id}`);
 });

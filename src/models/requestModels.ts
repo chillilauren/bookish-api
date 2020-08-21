@@ -13,6 +13,11 @@ export interface RegisterRequest {
     password: string;
 }
 
+export interface SignInRequest {
+    email: string;
+    password: string;
+}
+
 export interface CopyRequest {
     condition: "NEW" | "USED" | "POOR";
     status: "ACTIVE" | "LOST" | "REMOVED";

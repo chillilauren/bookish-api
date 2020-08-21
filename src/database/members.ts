@@ -23,22 +23,31 @@ export const fetchMemberById = (id: number) => {
         .first();
 }
 
-export const fetchMemberByEmail = (email: string) => {
+export const fetchMemberByEmail = async (email: string) => {
     return knexClient
         .select("*")
-        .from("member")
+        .from<Member>("member")
         .where("email", email)
         .first();
 }
 
 interface Member {
+    id: number;
+    name: string;
+    email: string;
+    hashed_password: string;
+    salt: string;
+    delete: boolean;
+}
+
+interface NewMember {
     name: string;
     email: string;
     hashedPassword: string;
     salt: string;
 }
 
-export const insertMember = async (member: Member) => {
+export const insertMember = async (member: NewMember) => {
     const insertedIds = await knexClient
         .insert({
             name: member.name,
@@ -66,6 +75,8 @@ export const deleteMember = async (id: number) => {
         .update({
             name: "REDACTED",
             email: `REDACTED_${id}`,
+            salt: "DELETED",
+            hashed_password: "DELETED",
             deleted: true,
         })
         .where("id", id);
