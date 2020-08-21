@@ -5,13 +5,19 @@
     <form action="/auth/sign-in" method="post">
         <label>
             Email
-            <input type="email" required name="email"/>
+            <input type="email" required name="email" value="{{ email }}"/>
         </label>
 
         <label>
             Password
-            <input type="password" required name="password"/>
+            <input type="password" required name="password" {{ password }}/>
         </label>
+        
+        {% if incorrectLogin %}
+            <div>
+                Incorrect email or password - please try again
+            </div>
+        {% endif %}
 
         <button type="submit">Sign In</button>
     </form>

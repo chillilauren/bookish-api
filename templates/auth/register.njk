@@ -5,17 +5,23 @@
     <form action="/auth/register" method="post">
         <label>
             Name
-            <input type="text" required name="name"/>
+            <input type="text" required name="name" value="{{ name }}"/>
         </label>
 
         <label>
             Email
-            <input type="email" required name="email"/>
+            <input type="email" required name="email" value="{{ email }}"/>
+            {% if error == 'EMAIL_TAKEN' %}
+                <div>This email has already been used.</div>
+            {% endif %}
         </label>
 
         <label>
             Password
-            <input type="password" required name="password"/>
+            <input type="password" required name="password" value="{{ password }}"/>
+            {% if error == 'PASSWORD_VALIDATION' %}
+                <div>Password must be at least 8 characters</div>
+            {% endif %}
         </label>
         
         <button type="submit">Register</button>
