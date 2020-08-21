@@ -1,0 +1,23 @@
+﻿{% extends "../_base.njk" %}
+
+{% block content %}
+    <h1>Register</h1>
+    <form action="/auth/register" method="post">
+        <label>
+            Name
+            <input type="text" required name="name"/>
+        </label>
+
+        <label>
+            Email
+            <input type="email" required name="email"/>
+        </label>
+
+        <label>
+            Password
+            <input type="password" required name="password"/>
+        </label>
+        
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}

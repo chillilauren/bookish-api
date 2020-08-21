@@ -1,5 +1,5 @@
 ﻿import {knexClient, PAGE_SIZE} from "./knexClient";
-import {MemberRequest} from "../models/requestModels";
+import {RegisterRequest} from "../models/requestModels";
 
 export const fetchAllMembers = (search: string, page: number) => {
     return knexClient
@@ -31,11 +31,20 @@ export const fetchMemberByEmail = (email: string) => {
         .first();
 }
 
-export const insertMember = async (member: MemberRequest) => {
+interface Member {
+    name: string;
+    email: string;
+    hashedPassword: string;
+    salt: string;
+}
+
+export const insertMember = async (member: Member) => {
     const insertedIds = await knexClient
         .insert({
             name: member.name,
             email: member.email,
+            hashed_password: member.hashedPassword,
+            salt: member.salt,
         })
         .into("member")
         .returning("id");
@@ -43,7 +52,7 @@ export const insertMember = async (member: MemberRequest) => {
     return insertedIds[0];
 }
 
-export const updateMember = async (id: number, member: MemberRequest) => {
+export const updateMember = async (id: number, member: RegisterRequest) => {
     await knexClient("member")
         .update({
             name: member.name,
