@@ -7,6 +7,12 @@ import {fetchCopiesOfBook} from "../database/copies";
 const router = express.Router();
 
 router.get('/', async (request, response) => {
+    if (!request.user) {
+        response.statusCode = 401
+        response.send("Not Authorised");
+        return;
+    }
+
     const search = request.query.search || "";
     const page = request.query.page ? parseInt(request.query.page as string) : 1;
     const model = { 

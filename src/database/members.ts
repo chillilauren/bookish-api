@@ -31,7 +31,7 @@ export const fetchMemberByEmail = async (email: string) => {
         .first();
 }
 
-interface Member {
+export interface Member {
     id: number;
     name: string;
     email: string;

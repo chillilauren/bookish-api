@@ -1,6 +1,5 @@
 ﻿import crypto from "crypto";
-import {SignInRequest} from "../models/requestModels";
-import {fetchMemberByEmail} from "../database/members";
+import {fetchMemberByEmail, Member} from "../database/members";
 
 interface HashResult {
     salt: string;
@@ -14,15 +13,22 @@ export const hashPassword = (password: string): HashResult => {
     return { salt, hashedPassword }
 }
 
-export const checkPassword = async (signInRequest: SignInRequest): Promise<boolean> => {
-    const member = await fetchMemberByEmail(signInRequest.email);
+export const tryLoginMember = async(email: string, password: string): Promise<Member | null> => {
+    const member = await fetchMemberByEmail(email);
     
     if (!member) {
-        return false;
+        return null;
     }
-    
-    const hashedPasswordAttempt = hash(member.salt, signInRequest.password);
-    return hashedPasswordAttempt === member.hashed_password;
+
+    if (passwordsMatch(member.salt, password, member.hashed_password)) {
+        return member;
+    }
+    return null;
+}
+
+const passwordsMatch = (salt: string, password: string, hashedValue: string): Boolean => {
+    const hashedAttempt = hash(salt, password);
+    return hashedAttempt === hashedValue;
 }
 
 const generateSalt = (): string => {

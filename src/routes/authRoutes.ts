@@ -1,8 +1,9 @@
 ﻿import express from "express";
-import {checkPassword, hashPassword} from "../services/auth";
+import {hashPassword} from "../services/auth";
 import {RegisterRequest, SignInRequest} from "../models/requestModels";
 import {insertMember} from "../database/members";
 import {validatePassword} from "../services/validations";
+import passport from "passport";
 
 const router = express.Router();
 
@@ -38,14 +39,16 @@ router.get("/sign-in", (request, response) => {
     response.render("auth/sign-in.njk");
 })
 
-router.post("/sign-in", async (request, response) => {
-    const signInRequest = request.body as SignInRequest;
-    
-    if (await checkPassword(signInRequest)) {
-        response.redirect("/books");
-    } else {
-        response.render("auth/sign-in.njk", { incorrectLogin: true, ...signInRequest })
-    }
-});
+router.post("/sign-in", passport.authenticate('local', {
+        successRedirect: "/books",
+        failureRedirect: "/auth/sign-in",
+    })
+);
+
+router.get("/sign-in-with-github", 
+    passport.authenticate('github', { scope: ['user:email'] }));
+
+router.get('/github/callback', 
+    passport.authenticate('github', { failureRedirect: '/auth/sign-in', successRedirect: "/books" }))
 
 export default router;
