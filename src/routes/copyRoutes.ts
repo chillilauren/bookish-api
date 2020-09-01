@@ -5,20 +5,14 @@ const router = express.Router();
 
 router.post("/new", async (request, response) => {
     const bookId = parseInt(request.body.bookId);
-    await insertCopy(bookId);
-    response.redirect(`/books/${bookId}`);
-});
-
-router.get("/:copyId/edit", async (request, response) => {
-    const copyId = parseInt(request.params.copyId);
-    const copy = await fetchCopyById(copyId);
-    response.render("copies/edit_copy.njk", copy);
+    const copy = await insertCopy(bookId);
+    response.json(copy);
 });
 
 router.post("/:copyId/edit", async (request, response) => {
     const copyId = parseInt(request.params.copyId);
     const updatedCopy = await updateCopy(copyId, request.body);
-    response.redirect(`/books/${updatedCopy.book_id}`);
+    response.json(updatedCopy);
 });
 
 export default router;

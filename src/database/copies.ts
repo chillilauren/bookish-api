@@ -36,14 +36,17 @@ export const fetchCopiesOfBook = async (bookId: number) => {
     }
 }
 
-export const insertCopy = (bookId: number) => {
-    return knexClient
+export const insertCopy = async (bookId: number) => {
+    const insertedIds = await knexClient
         .insert({
             book_id: bookId,
             condition: "NEW",
             status: "ACTIVE",
         })
-        .into("copy");
+        .into("copy")
+        .returning("*");
+    
+    return insertedIds[0];
 }
 
 export const fetchCopyById = (id: number) => {

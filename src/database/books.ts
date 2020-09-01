@@ -34,13 +34,13 @@ export const insertBook = async (book: BookRequest) => {
             author: book.author
         })
         .into("book")
-        .returning("id");
+        .returning("*");
     
     return insertedIds[0];
 }
 
 export const updateBook = async (id: number, book: BookRequest) => {
-    await knexClient("book")
+    const updatedRows = await knexClient("book")
         .update({
             title: book.title,
             author: book.author,
@@ -50,6 +50,9 @@ export const updateBook = async (id: number, book: BookRequest) => {
             isbn: book.isbn
         })
         .where("id", id)
+        .returning("*");
+    
+    return updatedRows[0];
 }
 
 export const deleteBook = async (id: number) => {

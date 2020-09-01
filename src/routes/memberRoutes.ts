@@ -12,7 +12,7 @@ router.get('/', async (request, response) => {
         search: search,
         page: page
     }
-    response.render("members/all_members.njk", model);
+    response.json(model);
 });
 
 router.get('/:memberId', async (request, response) => {
@@ -21,25 +21,19 @@ router.get('/:memberId', async (request, response) => {
         member:  await fetchMemberById(memberId),
         checkedOutBooks: await fetchBooksCheckedOutByMember(memberId),
     }
-    response.render("members/single_member.njk", model);
-});
-
-router.get('/:memberId/edit', async (request, response) => {
-    const memberId = parseInt(request.params.memberId);
-    const member = await fetchMemberById(memberId);
-    response.render("members/edit_member.njk", member);
+    response.json(model);
 });
 
 router.post('/:memberId/edit', async (request, response) => {
     const memberId = parseInt(request.params.memberId);
-    await updateMember(memberId, request.body);
-    response.redirect(`/members/${memberId}`);
+    const member = await updateMember(memberId, request.body);
+    response.json(member);
 });
 
-router.post('/:memberId/delete', async (request, response) => {
+router.delete('/:memberId/delete', async (request, response) => {
     const memberId = parseInt(request.params.memberId);
     await deleteMember(memberId);
-    response.redirect(`/members/${memberId}`);
+    response.json({ id: memberId });
 });
 
 export default router;

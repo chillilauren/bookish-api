@@ -62,12 +62,15 @@ export const insertMember = async (member: NewMember) => {
 }
 
 export const updateMember = async (id: number, member: RegisterRequest) => {
-    await knexClient("member")
+    const insertedRows = await knexClient("member")
         .update({
             name: member.name,
             email: member.email,
         })
-        .where("id", id);
+        .where("id", id)
+        .returning("*");
+    
+    return insertedRows[0];
 }
 
 export const deleteMember = async (id: number) => {

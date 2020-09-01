@@ -7,61 +7,44 @@ import {fetchCopiesOfBook} from "../database/copies";
 const router = express.Router();
 
 router.get('/', async (request, response) => {
-    if (!request.user) {
-        response.statusCode = 401
-        response.send("Not Authorised");
-        return;
-    }
-
     const search = request.query.search || "";
     const page = request.query.page ? parseInt(request.query.page as string) : 1;
     const model = { 
         books: await fetchAllBooks(search as string, page),
         search: search,
         page: page
-    }
-    response.render("books/all_books.njk", model);
-});
-
-router.get('/new', (request, response) => {
-    response.render("books/new_book.njk");
+    };
+    response.json(model);
 });
 
 router.post('/new', async (request, response) => {
     const newBook = request.body as BookRequest;
-    const newBookId = await insertBook(newBook);
-    response.redirect(`/books/${newBookId}`);
+    const book = await insertBook(newBook);
+    response.json(book);
 });
 
-router.post('/new-by-isbn', async (request, response) => {
-    const isbn = request.body.isbn;
-    const newBook = await lookupBook(isbn);
-    const newBookId = await insertBook(newBook);
-    response.redirect(`/books/${newBookId}`);
+router.get('/by-isbn/:isbn', async (request, response) => {
+    const isbn = request.params.isbn;
+    const bookDetails = await lookupBook(isbn);
+    response.json(bookDetails);
 });
 
-router.get('/:bookId/edit', async (request, response) => {
+router.post('/:bookId', async (request, response) => {
     const bookId = parseInt(request.params.bookId);
-    const book = await fetchBookById(bookId);
-    response.render("books/edit_book.njk", book);
+    const book = await updateBook(bookId, request.body);
+    response.json(book);
 });
 
-router.post('/:bookId/edit', async (request, response) => {
-    const bookId = parseInt(request.params.bookId);
-    await updateBook(bookId, request.body);
-    response.redirect(`/books/${bookId}`);
-});
-
-router.post('/:bookId/delete', async (request, response) => {
+router.delete('/:bookId/delete', async (request, response) => {
     const bookId = parseInt(request.params.bookId);
     await deleteBook(bookId);
-    response.redirect(`/books/${bookId}`);
+    response.json({id: bookId});
 });
 
 router.post('/:bookId/reinstate', async (request, response) => {
     const bookId = parseInt(request.params.bookId);
     await reinstateBook(bookId);
-    response.redirect(`/books/${bookId}`);
+    response.json({id: bookId});
 });
 
 router.get('/:bookId', async (request, response) => {
@@ -70,7 +53,7 @@ router.get('/:bookId', async (request, response) => {
         book: await fetchBookById(bookId),
         copies: await fetchCopiesOfBook(bookId),
     }
-    response.render("books/single_book.njk", model);
+    response.json(model);
 });
 
 export default router;

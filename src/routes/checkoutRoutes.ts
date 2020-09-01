@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post('/new', async (request, response) => {
     const checkout = request.body as CheckoutRequest;
-    await checkoutCopy(checkout.memberId!, checkout.copyId);
-    response.redirect(`/members/${checkout.memberId}`);
+    const insertedCheckout = await checkoutCopy(checkout.memberId!, checkout.copyId);
+    response.json(insertedCheckout);
 });
 
 router.post('/new-by-email', async (request, response) => {
@@ -17,15 +17,14 @@ router.post('/new-by-email', async (request, response) => {
     if (!member) {
         throw Error(`no user found matching email: ${checkout.email}`)
     }
-    await checkoutCopy(member.id, checkout.copyId);
-    response.redirect(`/members/${member.id}`);
+    const checkoutId = await checkoutCopy(member.id, checkout.copyId);
+    response.json({id: checkoutId});
 });
 
 router.post('/:checkoutId/checkin', async (request, response) => {
     const checkoutId = parseInt(request.params.checkoutId);
     const updatedCopy = await checkinCopy(checkoutId);
-    console.log(updatedCopy);
-    response.redirect(`/members/${updatedCopy.member_id}`);
-})
+    response.json(updatedCopy);
+});
 
 export default router;

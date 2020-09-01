@@ -5,13 +5,16 @@ export const checkoutCopy = async (memberId: number, copyId: number) => {
         throw Error("That copy is already taken");
     }
     
-    await knexClient
+    const insertedIds = await knexClient
         .insert({
             member_id: memberId,
             copy_id: copyId,
             out_date: knexClient.fn.now(),
         })
-        .into("checkout");
+        .into("checkout")
+        .returning("*");
+    
+    return insertedIds[0];
 }
 
 
@@ -29,9 +32,8 @@ export const checkinCopy = async (checkoutId: number) => {
     const updatedRows = await knexClient("checkout")
         .update({ in_date: knexClient.fn.now() })
         .where("id", checkoutId)
-        .returning("member_id");
+        .returning("*");
     
-    console.log(updatedRows);
     return updatedRows[0];
 }
 
