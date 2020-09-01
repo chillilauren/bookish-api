@@ -23,6 +23,13 @@ router.post('/new', async (request, response) => {
     response.json(book);
 });
 
+router.post('/new-by-isbn', async (request, response) => {
+    const isbn = request.body.isbn;
+    const bookDetails = await lookupBook(isbn);
+    const book = await insertBook(bookDetails);
+    response.json(book);
+});
+
 router.get('/by-isbn/:isbn', async (request, response) => {
     const isbn = request.params.isbn;
     const bookDetails = await lookupBook(isbn);
