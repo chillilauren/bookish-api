@@ -6,5 +6,3 @@ CREATE TABLE member (
     email               VARCHAR(255) NOT NULL UNIQUE,
     deleted             BOOLEAN NOT NULL DEFAULT false
 );
-
-select * from member;

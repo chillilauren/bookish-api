@@ -7,5 +7,3 @@ CREATE TABLE checkout (
     out_date    DATE NOT NULL,
     in_date     DATE
 );
-
-select * from checkout;
