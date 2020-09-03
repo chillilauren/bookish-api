@@ -5,6 +5,7 @@ import memberRoutes from "./routes/memberRoutes";
 import bookRoutes from "./routes/bookRoutes";
 import copyRoutes from "./routes/copyRoutes";
 import checkoutRoutes from "./routes/checkoutRoutes";
+import cors from "cors";
 
 const app = express();
 const port = process.env['PORT'] || 3001;
@@ -12,6 +13,9 @@ const port = process.env['PORT'] || 3001;
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cors( {
+    origin: "http://localhost:3000"
+}));
 
 app.use("/books", bookRoutes);
 app.use("/members", memberRoutes);
