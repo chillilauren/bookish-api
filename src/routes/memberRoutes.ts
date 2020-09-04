@@ -1,6 +1,7 @@
 ﻿import express from "express";
-import {deleteMember, fetchAllMembers, fetchMemberById, updateMember} from "../database/members";
+import {deleteMember, fetchAllMembers, fetchMemberById, insertMember, updateMember} from "../database/members";
 import {fetchBooksCheckedOutByMember} from "../database/checkouts";
+import {RegisterRequest} from "../models/requestModels";
 
 const router = express.Router();
 
@@ -22,6 +23,12 @@ router.get('/:memberId', async (request, response) => {
         checkedOutBooks: await fetchBooksCheckedOutByMember(memberId),
     }
     response.json(model);
+});
+
+router.post("/new", async (request, response) => {
+   const newMember = request.body as RegisterRequest;
+   const member = await insertMember(newMember);
+   response.json(member);
 });
 
 router.post('/:memberId/edit', async (request, response) => {
